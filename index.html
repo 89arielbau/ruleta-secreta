@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.2.7.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 120% }
+		pre.cjk { font-family: "Nimbus Mono L", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<pre class="western">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Ruleta Secreta&lt;/title&gt;
+
+&lt;script src=&quot;https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js&quot;&gt;&lt;/script&gt;
+
+&lt;style&gt;
+body{
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  margin:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+.box{
+  background:#fff;
+  width:90%;
+  max-width:400px;
+  padding:25px;
+  border-radius:16px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+input,button{
+  width:100%;
+  padding:15px;
+  margin-top:10px;
+  font-size:18px;
+  border-radius:10px;
+}
+button{
+  background:#667eea;
+  color:white;
+  border:none;
+  font-weight:bold;
+}
+.result{
+  margin-top:20px;
+  font-size:22px;
+  font-weight:bold;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div class=&quot;box&quot;&gt;
+&lt;h2&gt;&eth;ŸŽ&iexcl; Ruleta Secreta&lt;/h2&gt;
+&lt;input id=&quot;name&quot; placeholder=&quot;Escribe tu nombre&quot;&gt;
+&lt;button onclick=&quot;spin()&quot;&gt;Girar ruleta&lt;/button&gt;
+&lt;div class=&quot;result&quot; id=&quot;result&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const firebaseConfig = {
+  apiKey: &quot;AIzaSyA9WFjualXElCEt_pRgxhTRUSnqMTo-424&quot;,
+  authDomain: &quot;TU_PROYECTO.firebaseapp.com&quot;,
+  projectId: &quot;intercambio-5d82a&quot;
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const docRef = db.collection(&quot;ruleta&quot;).doc(&quot;estado&quot;);
+
+async function spin() {
+  const name = document.getElementById(&quot;name&quot;).value.trim();
+  const result = document.getElementById(&quot;result&quot;);
+
+  if (!name) {
+    result.textContent = &quot;&acirc;š&nbsp;&iuml;&cedil; Escribe tu nombre&quot;;
+    return;
+  }
+
+  const snap = await docRef.get();
+  const data = snap.data();
+
+  if (data.jugadores[name]) {
+    result.textContent = &quot;&eth;Ÿš&laquo; Ya giraste&quot;;
+    return;
+  }
+
+  const opciones = data.disponibles.filter(n =&gt; n !== name);
+  if (opciones.length === 0) {
+    result.textContent = &quot;&acirc;œ… Ruleta finalizada&quot;;
+    return;
+  }
+
+  const elegido = opciones[Math.floor(Math.random() * opciones.length)];
+
+  await docRef.update({
+    disponibles: firebase.firestore.FieldValue.arrayRemove(elegido),
+    [jugadores.${name}]: elegido
+  });
+
+  result.textContent = &eth;ŸŽ&macr; Te toc&Atilde;&sup3;: ${elegido};
+}
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
